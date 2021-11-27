@@ -16,7 +16,9 @@ https://www.overleaf.com/8771966626yrrznqcxhjmc
 ..
 
 #Requirements 
+
 ##Server 
+
 ###User management system
 - All messages pass through the server
 - A new user should be able to create an account on the server, using a tuple (username, password)
