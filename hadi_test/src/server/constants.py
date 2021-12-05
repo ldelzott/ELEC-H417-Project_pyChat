@@ -1,0 +1,10 @@
+PORT = 5050
+
+HEADER = 64
+FORMAT = 'utf-8'
+
+DISCONNECT_MESSAGE = "!DISCONNECT"
+LOGIN_MESSAGE = "!LOGIN"
+SIGNUP_MESSAGE = "!SIGNUP"
+
+DUMMY_USER = {"id": 1, "username": 'dummy_username'}
