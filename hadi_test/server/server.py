@@ -1,19 +1,13 @@
 import socket
 import threading
 
-from constants import PORT
+from constants import SERVER_HOST_NAME, SERVER_PORT
 from auth import authenticate_user
+from ssl_wrapper import make_ssl_server_socket
 from reader import read_next_message
 from writer import send_usage_information
 
-
-SERVER = socket.gethostbyname(socket.gethostname())
-ADDR = (SERVER, PORT)
-
-
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)
-
+server = make_ssl_server_socket()
 
 def receive_messages_loop(conn, user):
     while True:
@@ -26,15 +20,15 @@ def handle_client(conn):
         user = authenticate_user(conn)
         send_usage_information(conn)
         receive_messages_loop(conn, user)
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[EXCEPTION CAUGHT]: {e}")
     finally:
         conn.close()
 
 
 def start():
     server.listen()
-    print(f"[LISTENING] Server is listening on {SERVER}")
+    print(f"[LISTENING] Server is listening on {SERVER_HOST_NAME}:{SERVER_PORT}")
     while True:
         conn, addr = server.accept()
         print(f"[CONNECTION] {addr} connected.")

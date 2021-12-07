@@ -21,4 +21,5 @@ def send_welcome_message(conn, user, is_new):
 
 
 def send_usage_information(conn):
-    send_msg(conn, f'type {DISCONNECT_MESSAGE} to disconnect anytime')
+    send_msg(conn, f'Type any message to be sent to the server in the console..')
+    send_msg(conn, f'type {DISCONNECT_MESSAGE} to disconnect anytime!')

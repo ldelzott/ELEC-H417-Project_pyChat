@@ -1,16 +1,11 @@
-import socket
 import threading
-from constants import SERVER_PORT, HEADER, FORMAT
+from ssl_wrapper import make_ssl_client_socket
+from constants import SERVER_HOST_NAME, SERVER_PORT, HEADER, FORMAT
 
-SERVER_IP = socket.gethostbyname(socket.gethostname())
-ADDR = (SERVER_IP, SERVER_PORT)
+ADDR = (SERVER_HOST_NAME, SERVER_PORT)
 
-client = None
-
-def init_client():
-    global client
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
+client = make_ssl_client_socket()
+client.connect(ADDR)
 
 
 def send(msg):
@@ -45,11 +40,9 @@ def listen_to_server():
         print(f'[SERVER]: {message}')
 
 
-def main():
-    init_client()
+def start():
     threading.Thread(target=listen_to_user).start()
     threading.Thread(target=listen_to_server).start()
 
 
-
-main()
+start()

@@ -12,7 +12,7 @@ def read_next_message(conn):
         raise Exception
 
     if message == DISCONNECT_MESSAGE:
-        raise Exception
+        raise Exception("Client Disconnected")
 
     return message
 
