@@ -1,11 +1,9 @@
-import socket
 import threading
-
-from constants import SERVER_HOST_NAME, SERVER_PORT
 from auth import authenticate_user
 from ssl_wrapper import make_ssl_server_socket
 from reader import read_next_message
 from writer import send_usage_information
+from constants import SERVER_HOST_NAME, SERVER_PORT
 
 server = make_ssl_server_socket()
 

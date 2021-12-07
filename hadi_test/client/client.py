@@ -5,8 +5,6 @@ from constants import SERVER_HOST_NAME, SERVER_PORT, HEADER, FORMAT
 ADDR = (SERVER_HOST_NAME, SERVER_PORT)
 
 client = make_ssl_client_socket()
-client.connect(ADDR)
-
 
 def send(msg):
     message = msg.encode(FORMAT)
@@ -41,6 +39,7 @@ def listen_to_server():
 
 
 def start():
+    client.connect(ADDR)
     threading.Thread(target=listen_to_user).start()
     threading.Thread(target=listen_to_server).start()
 
