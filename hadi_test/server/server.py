@@ -7,6 +7,7 @@ from constants import SERVER_HOST_NAME, SERVER_PORT
 
 server = make_ssl_server_socket()
 
+
 def receive_messages_loop(conn, user):
     while True:
         message = read_next_message(conn)

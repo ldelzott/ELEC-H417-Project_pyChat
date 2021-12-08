@@ -1,5 +1,6 @@
 from constants import FORMAT, HEADER, LOGIN_MESSAGE, SIGNUP_MESSAGE, DISCONNECT_MESSAGE
 
+
 def send_msg(conn, msg):
     message = msg.encode(FORMAT)
     msg_length = len(message)
