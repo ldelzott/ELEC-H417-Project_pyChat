@@ -22,7 +22,7 @@ def send_welcome_message(conn, user, is_new):
 
 
 def send_usage_information(conn):
-    send_msg(conn, f'Type any message to be sent to the server in the console, or {DISCONNECT_MESSAGE} to disconnect')
+    send_msg(conn, f'Type your message in the console, or {DISCONNECT_MESSAGE} to leave')
 
 
 def send_username_request(conn):
@@ -30,7 +30,7 @@ def send_username_request(conn):
 
 
 def send_passphrase_request(conn):
-    send_msg(conn, f'Type your passphrase([DEBUB-writer.py] try "pwd")')
+    send_msg(conn, f'Type your passphrase([DEBUG-writer.py] try "pwd")')
 
 
 def send_generic_error_incorrect_user_input(conn):

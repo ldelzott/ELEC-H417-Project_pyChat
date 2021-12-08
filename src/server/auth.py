@@ -1,7 +1,7 @@
-from reader import read_next_message, read_username_password
 from db import find_user_by_username, find_user_by_username_and_pwd, create_user
-from constants import LOGIN_MESSAGE, SIGNUP_MESSAGE
+from reader import read_next_message, read_username_password
 from writer import send_authentication_request, send_welcome_message, send_msg
+from constants import LOGIN_MESSAGE, SIGNUP_MESSAGE
 
 
 def on_login_success(conn, user):
@@ -17,7 +17,7 @@ def try_login(conn):
     user = find_user_by_username_and_pwd(username, password)
 
     if not user:
-        return False, 'login error description'
+        return False, "login error description"
 
     on_login_success(conn, user)
     return user, None
@@ -28,7 +28,7 @@ def try_signup(conn):
     user_exists = find_user_by_username(username)
 
     if user_exists:
-        return False, 'username exists'
+        return False, "username exists"
 
     new_user = create_user(username, password)
 
@@ -37,8 +37,8 @@ def try_signup(conn):
 
 
 def authenticate_user(conn):
-    user, error = None, 'error'
-    
+    user, error = None, "error"
+
     while error:
         send_authentication_request(conn)
         auth_msg = read_next_message(conn)
@@ -48,9 +48,9 @@ def authenticate_user(conn):
         elif auth_msg == SIGNUP_MESSAGE:
             user, error = try_signup(conn)
         else:
-            error = 'invalid authentication message'
+            error = "invalid authentication message"
 
         if error:
-            send_msg(conn, f'Authentication error: {error}, try again!')
+            send_msg(conn, f"Authentication error: {error}, try again!")
 
     return user
