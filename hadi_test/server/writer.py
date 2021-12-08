@@ -11,15 +11,27 @@ def send_msg(conn, msg):
 
 
 def send_authentication_request(conn):
-    send_msg(conn, f'Please enter {LOGIN_MESSAGE} to login or {SIGNUP_MESSAGE} to signup')   
+    send_msg(conn, f'Please enter {LOGIN_MESSAGE} to login or {SIGNUP_MESSAGE} to signup')
 
 
 def send_welcome_message(conn, user, is_new):
     if is_new:
         send_msg(conn, f'Welcome to the app, {user["username"]}!')
     else:
-        send_msg(conn, f'Welcome back, {user["username"]}!')     
+        send_msg(conn, f'Welcome back, {user["username"]}!')
 
 
 def send_usage_information(conn):
     send_msg(conn, f'Type any message to be sent to the server in the console, or {DISCONNECT_MESSAGE} to disconnect')
+
+
+def send_username_request(conn):
+    send_msg(conn, f'Type your username ([DEBUG-writer.py] try "dummy_username")')
+
+
+def send_passphrase_request(conn):
+    send_msg(conn, f'Type your passphrase([DEBUB-writer.py] try "pwd")')
+
+
+def send_generic_error_incorrect_user_input(conn):
+    send_msg(conn, f'Incorrect input type, try again')

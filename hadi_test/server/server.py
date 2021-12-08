@@ -5,7 +5,7 @@ from reader import read_next_message
 from writer import send_usage_information
 from constants import SERVER_HOST_NAME, SERVER_PORT
 
-server = make_ssl_server_socket()
+server = make_ssl_server_socket() # Uses local private key and 'cert' string to
 
 
 def receive_messages_loop(conn, user):
@@ -32,6 +32,5 @@ def start():
         conn, addr = server.accept()
         print(f"[CONNECTION] {addr} connected.")
         threading.Thread(target=handle_client, args=(conn, )).start()
-
 
 start()
