@@ -1,4 +1,4 @@
-from db import find_user_by_username, find_user_by_username_and_pwd, create_user
+from db import is_username_in_db, is_username_and_password_in_db, create_user
 from reader import read_next_message, read_username_password
 from writer import send_authentication_request, send_welcome_message, send_msg
 from constants import LOGIN_MESSAGE, SIGNUP_MESSAGE
@@ -13,22 +13,23 @@ def on_signup_success(conn, user):
 
 
 def try_login(conn):
+
     username, password = read_username_password(conn)
-    user = find_user_by_username_and_pwd(username, password)
+    user = is_username_and_password_in_db(username, password)
 
     if not user:
         return False, "login error description"
 
-    on_login_success(conn, user)
-    return user, None
+    on_login_success(conn, username)
+    return username, None
 
 
 def try_signup(conn):
     username, password = read_username_password(conn)
-    user_exists = find_user_by_username(username)
+    user_exists = is_username_in_db(username)
 
     if user_exists:
-        return False, "username exists"
+        return False, "username already exists"
 
     new_user = create_user(username, password)
 

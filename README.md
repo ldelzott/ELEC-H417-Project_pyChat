@@ -16,6 +16,10 @@ https://www.overleaf.com/8771966626yrrznqcxhjmc
 ..
 
 #Requirements
+##Software
+The database in use is TinyDB : it's a very small DB written in python (see https://pypi.org/project/tinydb/)
+To install TinyDB, one can use the following command (inside a python environment (see pyCharm doc)):
+$ pip install tinydb
 ##Server 
 
 ###User management system

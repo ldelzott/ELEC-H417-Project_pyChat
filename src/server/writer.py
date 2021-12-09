@@ -16,9 +16,9 @@ def send_authentication_request(conn):
 
 def send_welcome_message(conn, user, is_new):
     if is_new:
-        send_msg(conn, f'Welcome to the app, {user["username"]}!')
+        send_msg(conn, f'Welcome to the app, {user}!')
     else:
-        send_msg(conn, f'Welcome back, {user["username"]}!')
+        send_msg(conn, f'Welcome back, {user}!')
 
 
 def send_usage_information(conn):
@@ -26,11 +26,11 @@ def send_usage_information(conn):
 
 
 def send_username_request(conn):
-    send_msg(conn, f'Type your username ([DEBUG-writer.py] try "dummy_username")')
+    send_msg(conn, f'Type your username ([DEBUG-writer.py] try "test")')
 
 
 def send_passphrase_request(conn):
-    send_msg(conn, f'Type your passphrase([DEBUG-writer.py] try "pwd")')
+    send_msg(conn, f'Type your passphrase([DEBUG-writer.py] try "test")')
 
 
 def send_generic_error_incorrect_user_input(conn):

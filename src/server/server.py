@@ -36,7 +36,6 @@ def handle_connections():
 def start():
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER_HOST_NAME}:{SERVER_PORT}")
-
     handle_connections()
 
 
