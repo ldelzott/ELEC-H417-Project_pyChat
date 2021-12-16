@@ -34,9 +34,9 @@ def send_user_blank_space(conn):
 
 def send_welcome_message(conn, user, is_new):
     if is_new:
-        send_msg(conn, f'Welcome to the app, {user["user"]}!')
+        send_msg(conn, f'\nWelcome to the app, {user["user"]}!')
     else:
-        send_msg(conn, f'Welcome back, {user["user"]}!')
+        send_msg(conn, f'\nWelcome back, {user["user"]}!')
 
 
 def send_usage_information(conn):
@@ -44,11 +44,11 @@ def send_usage_information(conn):
 
 
 def send_username_request(conn):
-    send_msg(conn, f'Type your username ([DEBUG-writer.py] try "test")')
+    send_msg(conn, f'Type your username')
 
 
 def send_passphrase_request(conn):
-    send_msg(conn, f'Type your passphrase([DEBUG-writer.py] try "test")')
+    send_msg(conn, f'Type your passphrase')
 
 
 def send_generic_error_incorrect_user_input(conn):
@@ -56,7 +56,7 @@ def send_generic_error_incorrect_user_input(conn):
 
 
 def send_back_info(conn):
-    send_msg(conn, f'Type your messages in the console, or {BACK_COMMAND} to go to the name selection menu\n')
+    send_msg(conn, f'\nType your messages in the console, or {BACK_COMMAND} to go to the name selection menu\n')
 
 
 def send_debug(conn):
@@ -68,4 +68,8 @@ def send_new_conversation_creation_info(conn):
 
 
 def send_message_from_conversation(conn, tuple):
-    send_msg(conn, f'{tuple["user"]} - {tuple["date"]} :  {tuple["message"]}')
+    send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["user"]}]: {tuple["message"]}')
+
+
+def send_hidden_public_key_request(conn):
+    send_msg(conn, f'{GET_PUBLIC_KEY}')

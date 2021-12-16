@@ -1,7 +1,7 @@
 import bcrypt
-
 from crypto_utils import hash_pwd
 from tinydb import TinyDB, Query
+import datetime
 
 
 def retrieve_db_access():
@@ -20,17 +20,17 @@ def retrieve_db_access():
 def insert_message_in_conversation_table(conversation_id, user, message):
     db, _, query = retrieve_db_access()
     conversation_data = db.table(conversation_id)
-    timestamp = "16h00"
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     conversation_data.insert({'date': timestamp, 'user': user["user"], 'seen': False, 'message': message})
 
 
 def create_new_conversation(user_initiator, user_destination):
     db, _, query = retrieve_db_access()
     conversation_info = db.table('conversation_info')
-    encrypted_symetric_key = "encrypted_aes_key_using_user_destination_public_key"
+    encrypted_symmetric_key = "encrypted_aes_key_using_user_destination_public_key"
     conversation_id = user_initiator["user"] + user_destination["user"]
     conversation_info.insert({'user1': user_initiator["user"], 'user2': user_destination["user"],
-                              'conversation_id': conversation_id, 'encr_aeskey': encrypted_symetric_key})
+                              'conversation_id': conversation_id, 'encr_aeskey': encrypted_symmetric_key})
     insert_message_in_conversation_table(conversation_id, user_initiator, "Conversation start")
 
 
@@ -54,7 +54,7 @@ def db_user_print():
     return authTable.all()
 
 
-# The pair (user1, user2) is assumed to be equivalent to the pair (user2, user1).
+# The pair (user1, user2) is assumed to be equivalent to the pair (user2, user1) when storing / searching for messages
 def is_user_tuple_in_conversations_db(user1, user2):
     db, _, query = retrieve_db_access()
     conversations_table = db.table('conversation_info')
@@ -82,11 +82,11 @@ def get_user(username):
     return authTable.search(query.user == username)[0]
 
 
-def create_user(username, pwd):
+def create_user(username, pwd, public_key):
     encoded_hashed_pwd = hash_pwd(pwd)
     _, authTable, query = retrieve_db_access()
     if is_username_in_db(username):
         return False, "the username is already in the database"
         exit()
-    authTable.insert({'user': username, 'hpassword': encoded_hashed_pwd.decode()})
+    authTable.insert({'user': username, 'hpassword': encoded_hashed_pwd.decode(), 'rsa_public': public_key})
     return authTable.search(query.user == username)[0]

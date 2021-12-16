@@ -10,5 +10,6 @@ SIGNUP_MESSAGE = "!SIGNUP"
 PRINT_USER_COMMAND = "!LIST"
 START_SESSION = "!TALK"
 BACK_COMMAND = "!BACK"
+GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
 
 DUMMY_USER = {"id": 1, "username": 'dummy_username'}

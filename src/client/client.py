@@ -1,7 +1,9 @@
 import threading
 from writer import send_msg
 from ssl_wrapper import make_ssl_client_socket
-from constants import SERVER_HOST_NAME, SERVER_PORT, HEADER, FORMAT
+from constants import SERVER_HOST_NAME, SERVER_PORT, HEADER, FORMAT, GET_PUBLIC_KEY
+from asymmetric_crypto import get_rsa_private_key, get_rsa_public_key, rsa_encrypt, rsa_decrypt, \
+    get_rsa_storable_public_key
 
 ADDR = (SERVER_HOST_NAME, SERVER_PORT)
 
@@ -11,7 +13,7 @@ client = make_ssl_client_socket()
 def listen_to_user_loop():
     while True:
         try:
-            message = input("> ")
+            message = input("")
             if message == "":
                 print("[ALERT]: Empty message ignored")
                 continue
@@ -33,13 +35,14 @@ def listen_to_server_loop():
 
         message_length = int(message_header.decode(FORMAT))
         message = client.recv(message_length).decode(FORMAT)
-        print(f"[SERVER]: {message}")
+        if message == GET_PUBLIC_KEY:
+            send_msg(client, get_rsa_storable_public_key())
+        else:
+            print(f"{message}")
 
 
 def start():
     client.connect(ADDR)
     threading.Thread(target=listen_to_user_loop).start()
     threading.Thread(target=listen_to_server_loop).start()
-
-
 start()
