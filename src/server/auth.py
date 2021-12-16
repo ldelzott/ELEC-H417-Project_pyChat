@@ -15,26 +15,23 @@ def on_signup_success(conn, user):
 def try_login(conn):
 
     username, password = read_username_password(conn)
-    user = is_username_and_password_in_db(username, password)
+    user_is_in_db, user = is_username_and_password_in_db(username, password)
 
-    if not user:
+    if not user_is_in_db:
         return False, "login error description"
 
-    on_login_success(conn, username)
-    return username, None
+    on_login_success(conn, user)
+    return user, False
 
 
 def try_signup(conn):
     username, password = read_username_password(conn)
     user_exists = is_username_in_db(username)
-
     if user_exists:
         return False, "username already exists"
-
     new_user = create_user(username, password)
-
     on_signup_success(conn, new_user)
-    return new_user, None
+    return new_user, False
 
 
 def authenticate_user(conn):
