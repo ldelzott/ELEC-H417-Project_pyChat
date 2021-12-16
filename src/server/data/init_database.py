@@ -8,6 +8,9 @@ db = TinyDB('db.json')
 
 userdb = db.table('authTable')
 #userdb.insert({'user': 'dummy_username', 'hpassword': 'pwd'}) # To remove
+passwd = Query()
+tempDict = userdb.search(passwd.user=='sacha')
+print(tempDict[0]["hpassword"])
 
-for item in userdb:
-    print(item)
+#for item in userdb:
+#    print(item)

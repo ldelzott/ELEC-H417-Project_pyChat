@@ -1,3 +1,5 @@
+import bcrypt
+
 from crypto_utils import hash_pwd
 from tinydb import TinyDB, Query
 
@@ -19,19 +21,20 @@ def is_username_in_db(username):
     _, authTable, query = retrieve_db_access()
     return authTable.contains(query.user == username)
 
-
+# db_tuple is a list of dict(s). The dict(s) in this list are the resulting tuples from the query.
 def is_username_and_password_in_db(username, pwd):
-    hashed_pwd = hash_pwd(pwd)
     _, authTable, query = retrieve_db_access()
-    return authTable.contains((query.user == username) & (query.hpassword == hashed_pwd))
+    db_tuple = authTable.search(query.user == username)
+    check_value = bcrypt.checkpw(pwd.encode("utf-8"), db_tuple[0]["hpassword"].encode("utf-8"))
+    return check_value
 
 
 def create_user(username, pwd):
-    hashed_pwd = hash_pwd(pwd)
+    encoded_hashed_pwd = hash_pwd(pwd)
     _, authTable, query = retrieve_db_access()
     if is_username_in_db(username):
         return False, "the username is already in the database"
         exit()
     else:
-        authTable.insert({'user': username, 'hpassword': hashed_pwd})
+        authTable.insert({'user': username, 'hpassword': encoded_hashed_pwd.decode()})
     return username
