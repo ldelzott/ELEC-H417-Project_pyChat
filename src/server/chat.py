@@ -1,9 +1,9 @@
-from src.server.constants import *
-from src.server.db import db_user_print, is_username_in_db, is_user_tuple_in_conversations_db, get_user, \
+from constants import *
+from db import db_user_print, is_username_in_db, is_user_tuple_in_conversations_db, get_user, \
     create_new_conversation, insert_message_in_conversation_table, retrieve_conversation_id, \
     retrieve_messages_from_conversation_id
-from src.server.reader import read_next_message
-from src.server.writer import send_msg, send_user_list, \
+from reader import read_next_message
+from writer import send_msg, send_user_list, \
     send_main_menu_command_list, send_destination_name_request, send_back_info, \
     send_new_conversation_creation_info, send_message_from_conversation
 

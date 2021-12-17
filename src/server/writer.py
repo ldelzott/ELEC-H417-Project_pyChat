@@ -11,7 +11,7 @@ def send_msg(conn, msg):
 
 
 def send_authentication_request(conn):
-    send_msg(conn, f'Please enter {LOGIN_MESSAGE} to login or {SIGNUP_MESSAGE} to signup\n')
+    send_msg(conn, f'Please enter {LOGIN_MESSAGE} to login or {SIGNUP_MESSAGE} to signup:\n')
 
 
 def send_main_menu_command_list(conn):
@@ -44,15 +44,15 @@ def send_usage_information(conn):
 
 
 def send_username_request(conn):
-    send_msg(conn, f'Type your username')
+    send_msg(conn, f'Type your username:')
 
 
 def send_passphrase_request(conn):
-    send_msg(conn, f'Type your passphrase')
+    send_msg(conn, f'Type your passphrase:')
 
 
 def send_generic_error_incorrect_user_input(conn):
-    send_msg(conn, f'Incorrect input type, try again')
+    send_msg(conn, f'Incorrect input type, try again:')
 
 
 def send_back_info(conn):

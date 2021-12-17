@@ -18,6 +18,8 @@ def try_login(conn):
     user_is_in_db, user = is_username_and_password_in_db(username, password)
 
     if not user_is_in_db:
+        if not user:
+            return False, "user not found in database"
         return False, "login error description"
 
     on_login_success(conn, user)
@@ -42,9 +44,9 @@ def authenticate_user(conn):
     while error:
         send_authentication_request(conn)
         auth_msg = read_next_message(conn)
-        if auth_msg == LOGIN_MESSAGE:
+        if auth_msg.lower() == LOGIN_MESSAGE:
             user, error = try_login(conn)
-        elif auth_msg == SIGNUP_MESSAGE:
+        elif auth_msg.lower() == SIGNUP_MESSAGE:
             user, error = try_signup(conn)
         else:
             error = "invalid authentication message"

@@ -73,6 +73,10 @@ def is_username_in_db(username):
 def is_username_and_password_in_db(username, pwd):
     _, authTable, query = retrieve_db_access()
     db_tuple = authTable.search(query.user == username)
+
+    if len(db_tuple) == 0:
+        return False, None
+
     check_value = bcrypt.checkpw(pwd.encode("utf-8"), db_tuple[0]["hpassword"].encode("utf-8"))
     return check_value, db_tuple[0]
 
