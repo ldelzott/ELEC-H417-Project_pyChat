@@ -14,7 +14,6 @@ def get_conversation_id_table(conversation_id):
     return conversation_id_table, Query()
 
 
-
 def insert_message_in_conversation_table(conversation_id, user, message):
     conversation_data = get_conversation_id_table(conversation_id)
     conversation_data.insert(
@@ -64,5 +63,6 @@ def retrieve_messages_from_conversation_id(conversation_id):
 def is_user_tuple_in_conversations_db(user1, user2):
     conversation_info, query = get_conversation_info_table()
     return conversation_info.contains(
-        (query.user1 == user1) & (query.user2 == user2)
-    ) or conversation_info.contains((query.user1 == user2) & (query.user2 == user1))
+        ((query.user1 == user1) & (query.user2 == user2))
+        | ((query.user1 == user2) & (query.user2 == user1))
+    )

@@ -20,8 +20,11 @@ from writer import (
 
 
 def print_user_list(conn):
-    all_users = list_users()
-    send_user_list(conn, all_users)
+    try:
+        all_users = list_users()
+        send_user_list(conn, all_users)
+    except Exception as e:
+        return e
 
     return None
 
