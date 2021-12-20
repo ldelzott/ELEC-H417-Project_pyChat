@@ -17,12 +17,12 @@ def list_users():
 
 def is_user_exists(username):
     users, query = get_users_table()
-    return users.contains(query.user == username)
+    return users.contains(query.username == username)
 
 
 def login_user(username, pwd):
     users, query = get_users_table()
-    result = users.search(query.user == username)
+    result = users.search(query.username == username)
 
     if len(result) == 0:
         return None
@@ -34,7 +34,7 @@ def login_user(username, pwd):
 
 def get_user_by_username(username):
     users, query = get_users_table()
-    return users.search(query.user == username)[0]
+    return users.search(query.username == username)[0]
 
 
 def create_user(username, pwd, public_key):
@@ -49,4 +49,4 @@ def create_user(username, pwd, public_key):
         }
     )
 
-    return users.search(query.user == username)[0]
+    return users.search(query.username == username)[0]
