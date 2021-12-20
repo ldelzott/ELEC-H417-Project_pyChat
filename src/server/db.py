@@ -74,6 +74,7 @@ def is_username_and_password_in_db(username, pwd):
     _, authTable, query = retrieve_db_access()
     db_tuple = authTable.search(query.user == username)
 
+    # in case the user isn't found
     if len(db_tuple) == 0:
         return False, None
 

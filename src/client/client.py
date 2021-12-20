@@ -6,7 +6,6 @@ from asymmetric_crypto import get_rsa_private_key, get_rsa_public_key, rsa_encry
     get_rsa_storable_public_key
 
 ADDR = (SERVER_HOST_NAME, SERVER_PORT)
-
 client = make_ssl_client_socket()
 
 

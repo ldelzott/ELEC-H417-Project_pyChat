@@ -9,13 +9,19 @@ def generate_rsa_key_pair():
     publicKey, privateKey = rsa.newkeys(1024)
     publicKeyPkcs1PEM = publicKey.save_pkcs1().decode('utf8') # Use this to store (files, DB, etc) the RSA keys
     privateKeyPkcs1PEM = privateKey.save_pkcs1().decode('utf8')
-    f1 = open("keys/private_rsa.pem", "w")
-    f1.write(privateKeyPkcs1PEM)
-    f2 = open("keys/public_rsa.pub", "w")
-    f2.write(publicKeyPkcs1PEM)
+
+    if not os.path.exists("./keys"):
+        os.mkdir("./keys")
+
+    with open("keys/private_rsa.pem", "w") as file:
+        file.write(privateKeyPkcs1PEM)
+
+    with open("keys/public_rsa.pub", "w") as file:
+        file.write(publicKeyPkcs1PEM)
 
 
 def get_rsa_public_key():
+
     if not os.path.exists("keys/public_rsa.pub"):
         generate_rsa_key_pair()
 
