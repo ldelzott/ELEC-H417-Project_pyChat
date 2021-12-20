@@ -1,14 +1,12 @@
 from constants import *
-from db.auth import is_user_exists, get_user_by_username
+from db.auth import list_users, is_user_exists, get_user_by_username
 from db.chat import (
-    list_users,
     is_user_tuple_in_conversations_db,
     create_new_conversation,
     insert_message_in_conversation_table,
     retrieve_conversation_id,
     retrieve_messages_from_conversation_id,
 )
-
 from reader import read_next_message
 from writer import (
     send_msg,
@@ -72,6 +70,7 @@ def initialize_chat_session(conn, user):
                 )
             else:
                 error = "Invalid name or command\n"  # Could be cleaner
+
             if error:
                 send_msg(conn, f"Request error: {error}, try again!\n")
 

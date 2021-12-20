@@ -8,7 +8,4 @@ def retrieve_db_access():
         print("An error occurred on a database transaction. Exiting...")
         exit()
 
-    authTable = db.table("authTable")
-    query = Query()
-
-    return db, authTable, query
+    return db
