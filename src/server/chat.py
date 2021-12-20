@@ -1,8 +1,6 @@
 from constants import *
-
-from db import (
-    is_user_exists,
-    get_user_by_username,
+from db.auth import is_user_exists, get_user_by_username
+from db.chat import (
     list_users,
     is_user_tuple_in_conversations_db,
     create_new_conversation,

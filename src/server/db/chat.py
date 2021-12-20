@@ -1,19 +1,5 @@
-from crypto_utils import hash_pwd, compare_pwd
-from tinydb import TinyDB, Query
-import datetime
-
-
-def retrieve_db_access():
-    try:
-        db = TinyDB("data/db.json")
-    except:
-        print("An error occurred on a database transaction. Exiting...")
-        exit()
-
-    authTable = db.table("authTable")
-    query = Query()
-
-    return db, authTable, query
+from datetime import datetime
+from db import retrieve_db_access
 
 
 def insert_message_in_conversation_table(conversation_id, user, message):
@@ -72,41 +58,3 @@ def is_user_tuple_in_conversations_db(user1, user2):
     return conversations_table.contains(
         (query.user1 == user1) & (query.user2 == user2)
     ) or conversations_table.contains((query.user1 == user2) & (query.user2 == user1))
-
-
-def is_user_exists(username):
-    _, authTable, query = retrieve_db_access()
-    return authTable.contains(query.user == username)
-
-
-def login_user(username, pwd):
-    _, authTable, query = retrieve_db_access()
-    result = authTable.search(query.user == username)
-
-    if len(result) == 0:
-        return None
-
-    if(compare_pwd(pwd, result[0]["hpassword"])):
-        return result[0]
-
-    return None
-
-
-def get_user_by_username(username):
-    _, authTable, query = retrieve_db_access()
-    return authTable.search(query.user == username)[0]
-
-
-def create_user(username, pwd, public_key):
-    encoded_hashed_pwd = hash_pwd(pwd)
-    _, authTable, query = retrieve_db_access()
-
-    authTable.insert(
-        {
-            "user": username,
-            "hpassword": encoded_hashed_pwd.decode(),
-            "rsa_public": public_key,
-        }
-    )
-
-    return authTable.search(query.user == username)[0]

@@ -4,6 +4,7 @@ from auth import authenticate_user
 from chat import login_main_menu
 from constants import SERVER_HOST_NAME, SERVER_PORT
 
+
 # Use local private key and certificate to create make a ssl socket
 server = make_ssl_server_socket()
 

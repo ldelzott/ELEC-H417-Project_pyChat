@@ -1,4 +1,4 @@
-from db import login_user, create_user, is_user_exists
+from db.auth import login_user, create_user, is_user_exists
 from reader import read_next_message, read_username_password, request_client_public_key
 from writer import (
     send_msg,
