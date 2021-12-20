@@ -1,9 +1,7 @@
 import threading
+from ssl_wrapper import make_ssl_server_socket
 from auth import authenticate_user
 from chat import login_main_menu
-from ssl_wrapper import make_ssl_server_socket
-from reader import read_next_message
-from writer import send_usage_information
 from constants import SERVER_HOST_NAME, SERVER_PORT
 
 # Use local private key and certificate to create make a ssl socket
@@ -18,10 +16,10 @@ def receive_messages_loop(conn, user):
 def handle_client(conn, addr):
     try:
         user = authenticate_user(conn)
-        send_usage_information(conn)
         receive_messages_loop(conn, user)
     except Exception as e:
         print(f"[EXCEPTION CAUGHT]: client: {addr} -- {e}")
+        # raise e  # just in dev, so we can see where is the error
     finally:
         conn.close()
 

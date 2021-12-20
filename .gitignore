@@ -1,2 +1,7 @@
 .idea
 __pycache__
+
+*.pem
+*.pub
+
+db.json
