@@ -1,16 +1,19 @@
+from tinydb import TinyDB
+import os
 
-# Use this to reset/DEBUG the database
 
-from tinydb import TinyDB, Query
-db = TinyDB('db.json')
+db_path = os.path.join(os.path.dirname(__file__), "db.json")
 
-#db.drop_tables() # Clean the db
 
-userdb = db.table('authTable')
-#userdb.insert({'user': 'dummy_username', 'hpassword': 'pwd'}) # To remove
-passwd = Query()
-tempDict = userdb.search(passwd.user)
-print(tempDict)
+def delete_db():
+    if os.path.exists(db_path):
+        os.remove(db_path)
 
-#for item in userdb:
-#    print(item)
+
+def inti_db():
+    TinyDB(db_path)
+
+
+if __name__ == "__main__":
+    delete_db()
+    inti_db()
