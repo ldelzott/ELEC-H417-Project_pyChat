@@ -33,7 +33,7 @@ def send_destination_name_request(conn):
 def send_user_list(conn, user_list):
     send_msg(conn, "users list:")
     for user in user_list:
-        send_msg(conn, f'{user["user"]}')
+        send_msg(conn, f'{user["username"]}')
 
 
 def send_user_blank_space(conn):
@@ -42,9 +42,9 @@ def send_user_blank_space(conn):
 
 def send_welcome_message(conn, user, is_new):
     if is_new:
-        send_msg(conn, f'\nWelcome to the app, {user["user"]}!')
+        send_msg(conn, f'\nWelcome to the app, {user["username"]}!')
     else:
-        send_msg(conn, f'\nWelcome back, {user["user"]}!')
+        send_msg(conn, f'\nWelcome back, {user["username"]}!')
 
 
 def send_usage_information(conn):
@@ -66,7 +66,7 @@ def send_generic_error_incorrect_user_input(conn):
     send_msg(conn, f"Incorrect input type, try again:")
 
 
-def send_back_info(conn):
+def send_back_command_info(conn):
     send_msg(
         conn,
         f"\nType your messages in the console, or {BACK_COMMAND} to go to the name selection menu\n",
@@ -82,7 +82,7 @@ def send_new_conversation_creation_info(conn):
 
 
 def send_message_from_conversation(conn, tuple):
-    send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["user"]}]: {tuple["message"]}')
+    send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["username"]}]: {tuple["message"]}')
 
 
 def send_hidden_public_key_request(conn):

@@ -19,7 +19,7 @@ def insert_message_in_conversation_table(conversation_id, user, message):
     conversation_data.insert(
         {
             "id": uuid4(),
-            "user": user["user"],
+            "username": user["username"],
             "message": message,
             "date": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "seen": False,
@@ -30,11 +30,11 @@ def insert_message_in_conversation_table(conversation_id, user, message):
 def create_new_conversation(user_initiator, user_destination):
     conversation_info, _ = get_conversation_info_table()
     encrypted_symmetric_key = "encrypted_aes_key_using_user_destination_public_key"
-    conversation_id = user_initiator["user"] + user_destination["user"]
+    conversation_id = user_initiator["username"] + user_destination["username"]
     conversation_info.insert(
         {
-            "user1": user_initiator["user"],
-            "user2": user_destination["user"],
+            "user1": user_initiator["username"],
+            "user2": user_destination["username"],
             "conversation_id": conversation_id,
             "encr_aeskey": encrypted_symmetric_key,
         }

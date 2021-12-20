@@ -43,7 +43,7 @@ def create_user(username, pwd, public_key):
 
     users.insert(
         {
-            "user": username,
+            "username": username,
             "hpassword": encoded_hashed_pwd.decode(),
             "rsa_public": public_key,
         }
