@@ -2,7 +2,8 @@ from constants import HEADER, FORMAT, DISCONNECT_MESSAGE
 from writer import (
     send_username_request,
     send_passphrase_request,
-    send_hidden_public_key_request
+    send_hidden_public_key_request,
+    send_hidden_encrypted_AES_key_request,
 )
 
 
@@ -41,4 +42,9 @@ def read_username_password(conn):
 
 def request_client_public_key(conn):
     send_hidden_public_key_request(conn)
+    return read_next_message(conn)
+
+
+def request_client_encrypted_AES_key(conn, dest_public_key):
+    send_hidden_encrypted_AES_key_request(conn, dest_public_key)
     return read_next_message(conn)

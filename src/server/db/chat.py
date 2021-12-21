@@ -19,15 +19,15 @@ def get_mailbox_table():
     return mailbox_table, Query()
 
 
-def initialize_new_conversation(user_init, user_dest):
-    conversation_id = create_new_conversation(user_init, user_dest)
+def initialize_new_conversation(user_init, user_dest, encr_aes_key):
+    conversation_id = create_new_conversation(user_init, user_dest, encr_aes_key)
     insert_conversation_message(conversation_id, user_init, "Conversation started")
     return conversation_id
 
 
-def create_new_conversation(user_init, user_dest):
+def create_new_conversation(user_init, user_dest, encr_aes_key):
     conversation_info, _ = get_conversation_info_table()
-    encrypted_symmetric_key = "encrypted_aes_key_using_user_destination_public_key"
+    encrypted_symmetric_key = encr_aes_key
     conversation_id = user_init["username"] + user_dest["username"]
     conversation_info.insert(
         {

@@ -1,8 +1,10 @@
 # From https://www.geeksforgeeks.org/how-to-encrypt-and-decrypt-strings-in-python/
 # From https://stackoverflow.com/questions/65597453/how-to-store-private-and-public-key-into-pem-file-generated-by-rsa-module-of-pyt
+# https://stackoverflow.com/questions/65230554/cannot-decode-encrypted-rsa-message-python3
 
 import os
 import rsa
+import base64
 
 
 def generate_rsa_key_pair():
@@ -50,6 +52,21 @@ def get_rsa_storable_private_key():
 def rsa_encrypt(message):
     publicKey = get_rsa_public_key()
     return rsa.encrypt(message.encode(), publicKey)
+
+
+def rsa_encrypt_with_peer_public_key(peer_public_key, plaintext):
+    publicKey = rsa.PublicKey.load_pkcs1(peer_public_key.encode('utf-8'))
+    binary_cipher = rsa.encrypt(plaintext.encode(), publicKey)
+    binary_cipher_in_b64 = base64.b64encode(binary_cipher)
+    binary_cipher_in_b64_string = binary_cipher_in_b64.decode()
+    return binary_cipher_in_b64_string
+
+
+def rsa_decrypt_b64_with_private_key(binary_cipher_in_b64_string):
+    encoded_encrypted_b64 = binary_cipher_in_b64_string.encode()
+    encoded_encrypted = base64.b64decode(encoded_encrypted_b64)
+    decoded_decrypted = rsa_decrypt(encoded_encrypted)
+    return decoded_decrypted
 
 
 def rsa_decrypt(encr_message):

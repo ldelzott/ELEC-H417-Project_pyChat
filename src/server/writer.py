@@ -87,3 +87,6 @@ def send_message_from_conversation(conn, tuple):
 
 def send_hidden_public_key_request(conn):
     send_msg(conn, f"{GET_PUBLIC_KEY}")
+
+def send_hidden_encrypted_AES_key_request(conn, dest_public_key):
+    send_msg(conn, f"{GET_ENCR_AES_KEY}{dest_public_key}")

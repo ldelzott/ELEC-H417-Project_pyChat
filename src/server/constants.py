@@ -11,6 +11,7 @@ PRINT_USER_COMMAND = "!LIST"
 START_SESSION = "!TALK"
 BACK_COMMAND = "!BACK"
 GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
+GET_ENCR_AES_KEY = '!GETENCRAES' # Also used on client side ; the length of the string is used in client.py
 
 DUMMY_USER = {"id": 1, "username": 'dummy_username'}
 

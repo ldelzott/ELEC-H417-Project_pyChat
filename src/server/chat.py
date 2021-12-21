@@ -9,7 +9,7 @@ from db.chat import (
     update_user_mailbox,
     clear_mailbox,
 )
-from reader import read_next_message
+from reader import read_next_message, request_client_encrypted_AES_key
 from writer import (
     send_msg,
     send_user_list,
@@ -18,6 +18,7 @@ from writer import (
     send_back_command_info,
     send_new_conversation_creation_info,
     send_message_from_conversation,
+    send_hidden_encrypted_AES_key_request,
 )
 import active_users
 
@@ -68,7 +69,8 @@ def start_chat_session(conn, user, user_dest):
 
     conversation_id = retrieve_conversation_id(user["username"], user_dest["username"])
     if not conversation_id:
-        conversation_id = initialize_new_conversation(user, user_dest)
+        encr_aes_key = request_client_encrypted_AES_key(conn, user_dest["rsa_public"])
+        conversation_id = initialize_new_conversation(user, user_dest, encr_aes_key)
         send_new_conversation_creation_info(conn)
 
     send_the_conversation(conn, conversation_id)
