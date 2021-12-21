@@ -2,8 +2,10 @@ import threading
 from ssl_wrapper import make_ssl_server_socket
 from auth import authenticate_user
 from chat import login_main_menu
-from constants import SERVER_HOST_NAME, SERVER_PORT
+from constants import SERVER_HOST_NAME, SERVER_PORT, MAIN_SCREEN
+import active_users
 
+active_users.init()
 
 # Use local private key and certificate to create make a ssl socket
 server = make_ssl_server_socket()
@@ -17,14 +19,15 @@ def receive_messages_loop(conn, user):
 def handle_client(conn, addr):
     try:
         user = authenticate_user(conn)
-        # register_user_as_active(user)
+        active_users.register(user["username"], conn)
         receive_messages_loop(conn, user)
     except Exception as e:
         print(f"[EXCEPTION CAUGHT]: client: {addr} -- {e}")
         raise e  # just in dev, so we can see where is the error
     finally:
         print(f"[CONNECTION] {addr} disconnected.")
-        # unregister_user_as_active(user)
+        active_users.unregister(user["username"])
+        conn.close()
         conn.close()
 
 

@@ -13,3 +13,9 @@ BACK_COMMAND = "!BACK"
 GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
 
 DUMMY_USER = {"id": 1, "username": 'dummy_username'}
+
+
+# SCREENS
+AUTH_SCREEN = "auth_screen"
+MAIN_SCREEN = "main_screen"
+CHAT_SCREEN = "chat_screen"
