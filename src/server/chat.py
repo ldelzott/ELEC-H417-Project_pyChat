@@ -2,9 +2,9 @@ from constants import *
 from db.auth import list_users, is_user_exists, get_user_by_username
 from db.chat import (
     initialize_new_conversation,
-    insert_conversation_message,
+    send_conversation_message,
     retrieve_conversation_id,
-    retrieve_messages_from_conversation_id,
+    get_messages_by_conversation_id,
 )
 from reader import read_next_message
 from writer import (
@@ -19,26 +19,22 @@ from writer import (
 
 
 def print_user_list(conn):
-    try:
-        all_users = list_users()
-        send_user_list(conn, all_users)
-    except Exception as e:
-        return e
+    all_users = list_users()
+    send_user_list(conn, all_users)
 
     return None
 
 
 def send_old_conversation(conn, conversation_id):
-    tuples = retrieve_messages_from_conversation_id(conversation_id)
-    for tuple in tuples:
-        send_message_from_conversation(conn, tuple)
+    messages = get_messages_by_conversation_id(conversation_id)
+    for message in messages:
+        send_message_from_conversation(conn, message)
 
 
 def start_chat_session(conn, user, dest_user):
     go_back = False
 
     conversation_id = retrieve_conversation_id(user["username"], dest_user["username"])
-
     if not conversation_id:
         conversation_id = initialize_new_conversation(user, dest_user)
         send_new_conversation_creation_info(conn)
@@ -52,7 +48,7 @@ def start_chat_session(conn, user, dest_user):
             go_back = True
             message = f"SYSTEM: {user['username']} LEFT"
 
-        insert_conversation_message(conversation_id, user, message)
+        send_conversation_message(conversation_id, user, message)
 
     return None
 
@@ -81,14 +77,14 @@ def initialize_chat_session(conn, user):
             if error:
                 send_msg(conn, f"Request error: {error}, try again!\n")
 
-    return False
+    return None
 
 
 def login_main_menu(conn, user):
     """
     Main menu for the user. User can choose to:
         - View all users
-        - Start a conversation
+        - Start a conversation with a picked user
     """
 
     error = None, "error"
@@ -101,7 +97,7 @@ def login_main_menu(conn, user):
         elif user_choice == START_SESSION:
             error = initialize_chat_session(conn, user)
         else:
-            error = "this request does not exist"
+            error = "invalid command"
 
         if error:
             send_msg(conn, f"Request error: {error}, try again!\n")

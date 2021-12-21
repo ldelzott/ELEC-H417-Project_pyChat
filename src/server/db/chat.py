@@ -16,7 +16,7 @@ def get_conversation_id_table(conversation_id):
 
 def initialize_new_conversation(user_init, user_dest):
     conversation_id = create_new_conversation(user_init, user_dest)
-    insert_conversation_message(conversation_id, user_init, "Conversation start")
+    send_conversation_message(conversation_id, user_init, "Conversation started")
     return conversation_id
 
 
@@ -49,12 +49,12 @@ def retrieve_conversation_id(username1, username2):
     return result[0]["conversation_id"]
 
 
-def retrieve_messages_from_conversation_id(conversation_id):
+def get_messages_by_conversation_id(conversation_id):
     conversation_list, _ = get_conversation_id_table(conversation_id)
     return conversation_list.all()
 
 
-def insert_conversation_message(conversation_id, user, message):
+def send_conversation_message(conversation_id, user, message):
     conversation_data, _ = get_conversation_id_table(conversation_id)
     conversation_data.insert(
         {

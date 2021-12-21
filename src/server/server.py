@@ -17,11 +17,14 @@ def receive_messages_loop(conn, user):
 def handle_client(conn, addr):
     try:
         user = authenticate_user(conn)
+        # register_user_as_active(user)
         receive_messages_loop(conn, user)
     except Exception as e:
         print(f"[EXCEPTION CAUGHT]: client: {addr} -- {e}")
-        # raise e  # just in dev, so we can see where is the error
+        raise e  # just in dev, so we can see where is the error
     finally:
+        print(f"[CONNECTION] {addr} disconnected.")
+        # unregister_user_as_active(user)
         conn.close()
 
 
