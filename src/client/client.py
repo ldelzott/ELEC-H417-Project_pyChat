@@ -42,8 +42,30 @@ def listen_to_user_loop(out_pipe):
             break
 
 
+
 def listen_to_server_loop(in_pipe):
-    encryption_on = False
+    """
+        The client will react to messages coming from the server.
+        Some message contains a prefix part: this prefix allows to trigger
+        specific behaviors on the client side while keeping to code relatively compact.
+
+        The 'GET_PUBLIC_KEY' prefix allows the server to retrieve the public RSA key of the client when he signup
+
+        The 'CREATE_ENCR_AES_KEY' prefix will generate a (new) random AES key on client side. This key is encrypted
+        using the public RSA key that follows the prefix.
+
+        The 'SEND_CONVERSATION_ID' prefix allows the client to store the ID of the current conversation : this ID is
+        helpful for the client to identify the AES secret key he needs to use in the decryption process.
+
+        The 'SERVER_SEND_ENCRYPTED_AES_KEY' prefix will be used by the client that doesn't initiate the conversation.
+        This client will not have yet a local AES secret key locally and needs to use his private RSA key to generate it
+
+        The 'START_ENCRYPTION' and 'STOP_ENCRYPTION' prefixes uses a 'pipe' between the two python threads created
+        in the start() function. This pipe allows to trigger the encryption of the chat messages that are send to
+        the server in listen_to_user_loop() function.
+
+        The 'CRYPTED_CONTENT' prefix is used by the server to tag encrypted messages.
+        """
     conversation_id = ""
     received_encrypted_aes = ""
     while True:
@@ -60,22 +82,20 @@ def listen_to_server_loop(in_pipe):
             send_msg(client, get_rsa_storable_public_key())
             message = ""
         if message[0:11] == CREATE_ENCR_AES_KEY:
-            send_msg(client, create_encrypted_symmetric_key(message[11:], conversation_id)) # Used when the current user initiate a new conversation with a new peer.
-            message = ""                                                                    # The current user will uses the public RSA key of the peer to encrypt
-        if message[0:10] == SEND_CONVERSATION_ID:                                           # the new AES key that will be used to encrypt/decrypt the new conversation.
+            send_msg(client, create_encrypted_symmetric_key(message[11:], conversation_id))
+            message = ""
+        if message[0:10] == SEND_CONVERSATION_ID:
             conversation_id = message[10:]
             message = ""
-        if message[0:14] == SERVER_SEND_ENCRYPTED_AES_KEY: # If a secret key doesn't exit locally, this means that the AES key was encrypted by the other user, using the public RSA key of the current user
+        if message[0:14] == SERVER_SEND_ENCRYPTED_AES_KEY:
             received_encrypted_aes = message[14:]
             check_for_existing_local_key(conversation_id, received_encrypted_aes)
             message = ""
         if message == START_ENCRYPTION:
             in_pipe.put(conversation_id)
-            encryption_on = True
             message=""
         if message == STOP_ENCRYPTION:
             in_pipe.put(NO_ENCRYPTION)
-            encryption_on = False
             message=""
         if message[0:13] == CRYPTED_CONTENT:
             message = decryption_using_AES_key(base64_string_to_byte(message[13:]), conversation_id)

@@ -82,6 +82,9 @@ def send_new_conversation_creation_info(conn):
 
 
 def send_message_from_conversation(conn, tuple):
+    """
+    This function is the only one to send crypted content to the client. This content is retrieved from the DB.
+    """
     send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["username"]}]:')
     send_msg(conn, f'{CRYPTED_CONTENT}{tuple["message"]}')
 

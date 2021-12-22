@@ -65,6 +65,12 @@ def is_peer_talking_to_me(me_username, peer_username):
 
 
 def start_chat_session(conn, user, user_dest):
+    """
+    This function manages chat sessions between users.
+    When the user enter a conversation, he will be prompted with the older messages of the conversation.
+    Those messages are encrypted from the server point of view: the client will decrypt those messages before
+    printing them to the user.
+    """
     active_users.update(
         user["username"], {"screen": CHAT_SCREEN, "talking_to": user_dest["username"]}
     )
@@ -73,14 +79,14 @@ def start_chat_session(conn, user, user_dest):
     go_back = False
 
     conversation_id = retrieve_conversation_id(user["username"], user_dest["username"])
-    if not conversation_id:
+    if not conversation_id: # Check if a conversation already exists between the two users; if not, a new one is created
         send_conversation_id(conn, user["username"]+user_dest["username"])
         encr_aes_key = request_client_encrypted_AES_key(conn, user_dest["rsa_public"])
         conversation_id = initialize_new_conversation(user, user_dest, encr_aes_key)
         send_new_conversation_creation_info(conn)
 
-    send_conversation_id(conn, conversation_id)
-    send_encryption_start_point(conn)
+    send_conversation_id(conn, conversation_id) # The client needs to have the conversation ID to select the proper AES key.
+    send_encryption_start_point(conn) # Trigger message for the client to knows that he needs to start the encryption process.
     send_encrypted_key_to_user(conn, get_aes_encryption_from_conversation(conversation_id))
     send_the_conversation(conn, conversation_id)
     send_back_command_info(conn)
@@ -89,7 +95,6 @@ def start_chat_session(conn, user, user_dest):
         message = read_next_message(conn)
         if message == BACK_COMMAND:
             go_back = True
-            #message = f"SYSTEM: {user['username']} LEFT" # The decryption require specific encoding : this brings errors
             message = ""
 
         if not message == "":

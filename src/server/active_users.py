@@ -12,6 +12,12 @@ def get_active_users():
 
 
 def register(username, conn):
+    """
+    To allows for live exchanges between two users, a 'dict' data structure is used by the server. 'This dict'
+    contains at any time the current 'screen' (i.e the menu) where any user is. It also contains the 'conn'
+    object used in the SSL connection for that user, the name of that user as well as the person this user could be
+    talking with.
+    """
     global active_users
     active_users[username] = {
         "username": username,
@@ -22,6 +28,9 @@ def register(username, conn):
 
 
 def unregister(username):
+    """
+    When a client leave the server, his name is removed from the 'dict' that contains all active users.
+    """
     global active_users
     del active_users[username]
 

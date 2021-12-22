@@ -1,3 +1,5 @@
+# DO NOT MODIFY THOSE CONSTANTS : the length of some of them is assumed to be fixed on the client side.
+
 SERVER_HOST_NAME = 'localhost'
 SERVER_PORT = 5050
 
@@ -10,8 +12,8 @@ SIGNUP_MESSAGE = "!signup"
 PRINT_USER_COMMAND = "!LIST"
 START_SESSION = "!TALK"
 BACK_COMMAND = "!BACK"
-GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
-CREATE_ENCR_AES_KEY = '!GETENCRAES' # Also used on client side ; the length of the string is used in client.py
+GET_PUBLIC_KEY = '!GETRSA'
+CREATE_ENCR_AES_KEY = '!GETENCRAES'
 SERVER_SEND_ENCRYPTED_AES_KEY = '!SERVERSENDKEY'
 SEND_CONVERSATION_ID = '!SEND_USER'
 NO_ENCRYPTION = '!NOCRYPT'

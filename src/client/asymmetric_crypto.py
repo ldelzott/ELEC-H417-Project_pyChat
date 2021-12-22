@@ -1,15 +1,21 @@
-# From https://www.geeksforgeeks.org/how-to-encrypt-and-decrypt-strings-in-python/
-# From https://stackoverflow.com/questions/65597453/how-to-store-private-and-public-key-into-pem-file-generated-by-rsa-module-of-pyt
+# https://www.geeksforgeeks.org/how-to-encrypt-and-decrypt-strings-in-python/
+# https://stackoverflow.com/questions/65597453/how-to-store-private-and-public-key-into-pem-file-generated-by-rsa-module-of-pyt
 # https://stackoverflow.com/questions/65230554/cannot-decode-encrypted-rsa-message-python3
 
 import os
 import rsa
 import base64
 
+# This file contains functions for RSA keys management as well as encryption and decryption processes.
+
 
 def generate_rsa_key_pair():
+    """
+    Each client have both a private and a public RSA key stored locally.
+    That key pair will be generated only once if the corresponding files are not created yet.
+    """
     publicKey, privateKey = rsa.newkeys(1024)
-    publicKeyPkcs1PEM = publicKey.save_pkcs1().decode('utf8') # Use this to store (files, DB, etc) the RSA keys
+    publicKeyPkcs1PEM = publicKey.save_pkcs1().decode('utf8')
     privateKeyPkcs1PEM = privateKey.save_pkcs1().decode('utf8')
 
     if not os.path.exists("./keys"):
@@ -33,6 +39,11 @@ def get_rsa_public_key():
 
 
 def get_rsa_storable_public_key():
+    """
+    The database system used by the server (TinyDB) relies on .JSON files that doesn't accept serialized data.
+    Thus, particular processing needs to be done prior to any storage in the DB. The conversion used in this
+    project relies on the base64 library. This library allows for easy conversions between 'bytes' and 'strings'.
+    """
     return get_rsa_public_key().save_pkcs1().decode('utf-8')
 
 
@@ -46,6 +57,11 @@ def get_rsa_private_key():
 
 
 def get_rsa_storable_private_key():
+    """
+    The database system used by the server (TinyDB) relies on .JSON files that doesn't accept serialized data.
+    Thus, particular processing needs to be done prior to any storage in the DB. The conversion used in this
+    project relies on the base64 library. This library allows for easy conversions between 'bytes' and 'strings'.
+    """
     return get_rsa_private_key().save_pkcs1().decode('utf-8')
 
 
