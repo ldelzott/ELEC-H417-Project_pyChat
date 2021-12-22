@@ -6,7 +6,6 @@ This project enable encrypted conversations between two users. The architecture 
 ## Report
 https://www.overleaf.com/8771966626yrrznqcxhjmc
 ..
-
 ##Software : dependencies
 
 The following dependencies are required : 
@@ -16,8 +15,7 @@ The following dependencies are required :
 - *rsa* : a library dedicated to RSA cryptography 
 - *openssl* : a library dedicated to SSL connections (used in the secure link between the client and the server)
 
-To install the dependencies, the command *&pip install* **[dependency_name]** can by used. The current project was working properly in pyCharm IDE using the Python 3.8 interpreter. 
-
+To install the dependencies, the command *&pip install* **[dependency_name]** can by used. The current project was working properly in pyCharm IDE using the Python 3.8 interpreter.
 ##How to use the project
 
 Using the command *git clone *[repository_address]** should allows to create a local copy of the repository. The server needs to be launched prior to the client: this can be done using the Windows command prompt or any terminal window with a properly configured python environment. 
@@ -27,11 +25,10 @@ Using the command *git clone *[repository_address]** should allows to create a l
 
 The parameters used for the connection between the server and the clients are given internally (i.e in the code). At this point, any client/server will use the **localhost** address. Those parameters can be changed by altering the value of the constants from the files */src/server/constants.py* and */src/client/constants.py*.
 
-The data structure of the project should allows to launch both client/server scripts on distinct machines. 
-
+The data structure of the project should allows to launch both client/server scripts on distinct machines.
 ##Features
-
 ### SIGNUP screen
+
 When launching the script */src/client/client.py* for the first time, the user can create an account using the command **!signup**. The user is then asks to enter new credentials. Note that if the user choose an already existing username, the signup process fail and the user is send back to a *login/signup* menu.
 
 
