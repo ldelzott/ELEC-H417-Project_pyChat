@@ -27,12 +27,15 @@ def register(username, conn):
     }
 
 
-def unregister(username):
+def unregister(user):
     """
     When a client leave the server, his name is removed from the 'dict' that contains all active users.
     """
+    if not user:
+        return
+
     global active_users
-    del active_users[username]
+    del active_users[user["username"]]
 
 
 def update(username, dict):
@@ -42,8 +45,3 @@ def update(username, dict):
 
     for key, value in dict.items():
         active_users[username][key] = value
-
-    # from pprint import pprint
-
-    # for user in active_users.values():
-    #     pprint(user)
