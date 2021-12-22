@@ -5,7 +5,6 @@
 This project enable encrypted conversations between two users. The architecture relies on a client/server approach where the server is agnostic to the content of the messages send between users.  
 ## Report
 https://www.overleaf.com/8771966626yrrznqcxhjmc
-..
 ##Software : dependencies
 
 The following dependencies are required : 
