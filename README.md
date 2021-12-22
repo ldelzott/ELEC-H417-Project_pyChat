@@ -28,7 +28,8 @@ Using the command *git clone *[repository_address]** should allows to create a l
 The parameters used for the connection between the server and the clients are given internally (i.e in the code). At this point, any client/server will use the **localhost** address. Those parameters can be changed by altering the value of the constants from the files */src/server/constants.py* and */src/client/constants.py*.
 
 The data structure of the project should allows to launch both client/server scripts on distinct machines.
-### Feature 1: SIGNUP screen
+# Features
+### SIGNUP screen
 
 When launching the script */src/client/client.py* for the first time, the user can create an account using the command **!signup**. The user is then asks to enter new credentials. Note that if the user choose an already existing username, the signup process fail and the user is send back to a *login/signup* menu.
 
@@ -45,14 +46,14 @@ The login process is almost identical to the signup process. Again, the user nee
 
 ![signup_screen4](images/signup4.png)
 
-### Feature 2: Main menu
+### Main menu
 After a successful authentication, the user is able to ask the server for the list of the users known from the database. This list is printed with the command **!LIST**.
 
 ![signup_screen4](images/main_menu_1.png)
 
 The command **!TALK** followed by *username* allows to start a chat session with *username*. When entering a conversation, the content of the message between the client and the server is encrypted by the client. 
 
-### Feature 3: Offline chat session
+### Offline chat session
 When *username1* send messages to *username2*, *username2* doesn't need to be available (i.e connected to the server) to receive the messages from *username1*. Moreover, when *username2* will connect to the server, his client will print the number of unread messages as well as the names of the corresponding usernames:
 
 ![signup_screen4](images/offline_chat1.png)
@@ -61,7 +62,7 @@ When the user start the chat session, the previous messages are printed on his s
 
 ![signup_screen4](images/offline_chat2.png)
 
-### Feature 4: Online chat session
+### Online chat session
 If both users are connected to the server and if they are communicating with each other at the same time, the new messages can be printed on the users screens without any input from them (i.e the client chat screen is updated by the server when the peer send his message). 
 
 ![signup_screen4](images/online_chat1.png)
