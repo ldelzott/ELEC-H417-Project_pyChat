@@ -19,11 +19,10 @@ from writer import (
     send_back_command_info,
     send_new_conversation_creation_info,
     send_message_from_conversation,
-    send_hidden_encrypted_AES_key_request,
     send_conversation_id,
     send_encrypted_key_to_user,
     send_encryption_start_point,
-    send_encryption_stop_point
+    send_encryption_stop_point,
 )
 import active_users
 
@@ -79,15 +78,23 @@ def start_chat_session(conn, user, user_dest):
     go_back = False
 
     conversation_id = retrieve_conversation_id(user["username"], user_dest["username"])
-    if not conversation_id: # Check if a conversation already exists between the two users; if not, a new one is created
-        send_conversation_id(conn, user["username"]+user_dest["username"])
+    if (
+        not conversation_id
+    ):  # Check if a conversation already exists between the two users; if not, a new one is created
+        send_conversation_id(conn, user["username"] + user_dest["username"])
         encr_aes_key = request_client_encrypted_AES_key(conn, user_dest["rsa_public"])
         conversation_id = initialize_new_conversation(user, user_dest, encr_aes_key)
         send_new_conversation_creation_info(conn)
 
-    send_conversation_id(conn, conversation_id) # The client needs to have the conversation ID to select the proper AES key.
-    send_encryption_start_point(conn) # Trigger message for the client to knows that he needs to start the encryption process.
-    send_encrypted_key_to_user(conn, get_aes_encryption_from_conversation(conversation_id))
+    send_conversation_id(
+        conn, conversation_id
+    )  # The client needs to have the conversation ID to select the proper AES key.
+    send_encryption_start_point(
+        conn
+    )  # Trigger message for the client to knows that he needs to start the encryption process.
+    send_encrypted_key_to_user(
+        conn, get_aes_encryption_from_conversation(conversation_id)
+    )
     send_the_conversation(conn, conversation_id)
     send_back_command_info(conn)
 
