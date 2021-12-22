@@ -6,7 +6,9 @@ This project enable encrypted conversations between two users. The architecture 
 
 
 
-##Software : dependencies
+## Software : dependencies
+
+
 
 The following dependencies are required : 
 - *tinydb* : a lightweight database management system
