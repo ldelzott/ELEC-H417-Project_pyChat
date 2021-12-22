@@ -8,6 +8,7 @@ from db.chat import (
     get_user_mailbox,
     update_user_mailbox,
     clear_mailbox,
+    get_aes_encryption_from_conversation,
 )
 from reader import read_next_message, request_client_encrypted_AES_key
 from writer import (
@@ -19,6 +20,10 @@ from writer import (
     send_new_conversation_creation_info,
     send_message_from_conversation,
     send_hidden_encrypted_AES_key_request,
+    send_conversation_id,
+    send_encrypted_key_to_user,
+    send_encryption_start_point,
+    send_encryption_stop_point
 )
 import active_users
 
@@ -69,10 +74,14 @@ def start_chat_session(conn, user, user_dest):
 
     conversation_id = retrieve_conversation_id(user["username"], user_dest["username"])
     if not conversation_id:
+        send_conversation_id(conn, user["username"]+user_dest["username"])
         encr_aes_key = request_client_encrypted_AES_key(conn, user_dest["rsa_public"])
         conversation_id = initialize_new_conversation(user, user_dest, encr_aes_key)
         send_new_conversation_creation_info(conn)
 
+    send_conversation_id(conn, conversation_id)
+    send_encryption_start_point(conn)
+    send_encrypted_key_to_user(conn, get_aes_encryption_from_conversation(conversation_id))
     send_the_conversation(conn, conversation_id)
     send_back_command_info(conn)
 
@@ -80,12 +89,14 @@ def start_chat_session(conn, user, user_dest):
         message = read_next_message(conn)
         if message == BACK_COMMAND:
             go_back = True
-            message = f"SYSTEM: {user['username']} LEFT"
+            #message = f"SYSTEM: {user['username']} LEFT" # The decryption require specific encoding : this brings errors
+            message = ""
 
-        send_conversation_message(conversation_id, user, user_dest, message)
+        if not message == "":
+            send_conversation_message(conversation_id, user, user_dest, message)
 
     active_users.update(user["username"], {"screen": MAIN_SCREEN, "talking_to": None})
-
+    send_encryption_stop_point(conn)
     return None
 
 

@@ -82,11 +82,29 @@ def send_new_conversation_creation_info(conn):
 
 
 def send_message_from_conversation(conn, tuple):
-    send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["username"]}]: {tuple["message"]}')
+    send_msg(conn, f'{tuple["date"][0:10]} ~ [{tuple["username"]}]:')
+    send_msg(conn, f'{CRYPTED_CONTENT}{tuple["message"]}')
 
 
 def send_hidden_public_key_request(conn):
     send_msg(conn, f"{GET_PUBLIC_KEY}")
 
+
 def send_hidden_encrypted_AES_key_request(conn, dest_public_key):
-    send_msg(conn, f"{GET_ENCR_AES_KEY}{dest_public_key}")
+    send_msg(conn, f"{CREATE_ENCR_AES_KEY}{dest_public_key}")
+
+
+def send_conversation_id(conn, conversation_id):
+    send_msg(conn, f"{SEND_CONVERSATION_ID}{conversation_id}")
+
+
+def send_encrypted_key_to_user(conn, encrypted_aes_from_conversation_table):
+    send_msg(conn, f"{SERVER_SEND_ENCRYPTED_AES_KEY}{encrypted_aes_from_conversation_table}")
+
+
+def send_encryption_start_point(conn):
+    send_msg(conn, f"{START_ENCRYPTION}")
+
+
+def send_encryption_stop_point(conn):
+    send_msg(conn, f"{STOP_ENCRYPTION}")

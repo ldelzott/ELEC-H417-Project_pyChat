@@ -11,7 +11,13 @@ PRINT_USER_COMMAND = "!LIST"
 START_SESSION = "!TALK"
 BACK_COMMAND = "!BACK"
 GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
-GET_ENCR_AES_KEY = '!GETENCRAES' # Also used on client side ; the length of the string is used in client.py
+CREATE_ENCR_AES_KEY = '!GETENCRAES' # Also used on client side ; the length of the string is used in client.py
+SERVER_SEND_ENCRYPTED_AES_KEY = '!SERVERSENDKEY'
+SEND_CONVERSATION_ID = '!SEND_USER'
+NO_ENCRYPTION = '!NOCRYPT'
+START_ENCRYPTION = '!AES_START'
+STOP_ENCRYPTION = '!AES_STOP'
+CRYPTED_CONTENT = '!CRYPTOGRAHIC'
 
 DUMMY_USER = {"id": 1, "username": 'dummy_username'}
 

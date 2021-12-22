@@ -21,7 +21,7 @@ def get_mailbox_table():
 
 def initialize_new_conversation(user_init, user_dest, encr_aes_key):
     conversation_id = create_new_conversation(user_init, user_dest, encr_aes_key)
-    insert_conversation_message(conversation_id, user_init, "Conversation started")
+    insert_conversation_message(conversation_id, user_init, "")
     return conversation_id
 
 
@@ -39,6 +39,15 @@ def create_new_conversation(user_init, user_dest, encr_aes_key):
     )
 
     return conversation_id
+
+
+def get_aes_encryption_from_conversation(conversation_id):
+    conversation_info, query = get_conversation_info_table()
+    result = conversation_info.search(query.conversation_id == conversation_id)
+    if len(result) == 0:
+        return None
+    return result[0]["encr_aeskey"]
+
 
 
 def retrieve_conversation_id(username1, username2):
