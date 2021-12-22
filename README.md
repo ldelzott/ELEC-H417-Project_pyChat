@@ -5,7 +5,7 @@
 This project enable encrypted conversations between two users. The architecture relies on a client/server approach where the server is agnostic to the content of the messages send between users.  
 ## Report
 https://www.overleaf.com/8771966626yrrznqcxhjmc
-##Software : dependencies
+#Software : dependencies
 
 The following dependencies are required : 
 - *tinydb* : a lightweight database management system
@@ -15,7 +15,7 @@ The following dependencies are required :
 - *openssl* : a library dedicated to SSL connections (used in the secure link between the client and the server)
 
 To install the dependencies, the command *&pip install* **[dependency_name]** can by used. The current project was working properly in pyCharm IDE using the Python 3.8 interpreter.
-##How to use the project
+#How to use the project
 
 Using the command *git clone *[repository_address]** should allows to create a local copy of the repository. The server needs to be launched prior to the client: this can be done using the Windows command prompt or any terminal window with a properly configured python environment. 
 
