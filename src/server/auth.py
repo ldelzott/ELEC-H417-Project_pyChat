@@ -1,41 +1,45 @@
-from db import is_username_in_db, is_username_and_password_in_db, create_user
-from reader import read_next_message, read_username_password
-from writer import send_authentication_request, send_welcome_message, send_msg, send_hidden_public_key_request
+from db.auth import login_user, create_user, is_user_exists
+from reader import read_next_message, read_username_password, request_client_public_key
+from writer import (
+    send_msg,
+    send_authentication_request,
+    send_welcome_message,
+    send_usage_information,
+)
 from constants import LOGIN_MESSAGE, SIGNUP_MESSAGE
 
 
 def on_login_success(conn, user):
     send_welcome_message(conn, user, False)
+    send_usage_information(conn)
 
 
 def on_signup_success(conn, user):
     send_welcome_message(conn, user, True)
+    send_usage_information(conn)
 
 
 def try_login(conn):
-
     username, password = read_username_password(conn)
-    user_is_in_db, user = is_username_and_password_in_db(username, password)
+    user = login_user(username, password)
 
-    if not user_is_in_db:
-        if not user:
-            return False, "user not found in database"
-        return False, "login error description"
+    if not user:
+        return False, "invalid username or password"
 
     on_login_success(conn, user)
-    return user, False
+    return user, None
 
 
 def try_signup(conn):
     username, password = read_username_password(conn)
-    user_exists = is_username_in_db(username)
-    if user_exists:
+    if is_user_exists(username):
         return False, "username already exists"
-    send_hidden_public_key_request(conn) # Will trigger the client to automatically retrieve his RSA key
-    public_key = read_next_message(conn)
-    new_user = create_user(username, password, public_key)
+
+    pk = request_client_public_key(conn)
+    new_user = create_user(username, password, pk)
     on_signup_success(conn, new_user)
-    return new_user, False
+
+    return new_user, None
 
 
 def authenticate_user(conn):
@@ -43,10 +47,11 @@ def authenticate_user(conn):
 
     while error:
         send_authentication_request(conn)
-        auth_msg = read_next_message(conn)
-        if auth_msg.lower() == LOGIN_MESSAGE:
+        auth_reply = read_next_message(conn)
+
+        if auth_reply.lower() == LOGIN_MESSAGE:
             user, error = try_login(conn)
-        elif auth_msg.lower() == SIGNUP_MESSAGE:
+        elif auth_reply.lower() == SIGNUP_MESSAGE:
             user, error = try_signup(conn)
         else:
             error = "invalid authentication message"

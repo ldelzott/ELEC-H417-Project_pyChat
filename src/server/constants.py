@@ -1,3 +1,5 @@
+# DO NOT MODIFY THOSE CONSTANTS : the length of some of them is assumed to be fixed on the client side.
+
 SERVER_HOST_NAME = 'localhost'
 SERVER_PORT = 5050
 
@@ -10,6 +12,19 @@ SIGNUP_MESSAGE = "!signup"
 PRINT_USER_COMMAND = "!LIST"
 START_SESSION = "!TALK"
 BACK_COMMAND = "!BACK"
-GET_PUBLIC_KEY = '!GETRSA' # Also used on client side
+GET_PUBLIC_KEY = '!GETRSA'
+CREATE_ENCR_AES_KEY = '!GETENCRAES'
+SERVER_SEND_ENCRYPTED_AES_KEY = '!SERVERSENDKEY'
+SEND_CONVERSATION_ID = '!SEND_USER'
+NO_ENCRYPTION = '!NOCRYPT'
+START_ENCRYPTION = '!AES_START'
+STOP_ENCRYPTION = '!AES_STOP'
+CRYPTED_CONTENT = '!CRYPTOGRAHIC'
 
 DUMMY_USER = {"id": 1, "username": 'dummy_username'}
+
+
+# SCREENS
+AUTH_SCREEN = "auth_screen"
+MAIN_SCREEN = "main_screen"
+CHAT_SCREEN = "chat_screen"
